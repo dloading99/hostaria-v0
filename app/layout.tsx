@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Fraunces, Plus_Jakarta_Sans } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { MotionProvider } from "@/components/providers/MotionProvider"
 import "./globals.css"
 
 const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-display" })
@@ -39,7 +40,7 @@ export default function RootLayout({
   return (
     <html lang="it" suppressHydrationWarning className={`${fraunces.variable} ${plusJakartaSans.variable}`}>
       <body className={`font-sans antialiased bg-background text-foreground`}>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         <Analytics />
       </body>
     </html>

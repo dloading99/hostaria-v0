@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
+import { Reveal, Stagger } from "@/components/motion"
 
 interface MenuItem {
   id: string
@@ -106,71 +107,61 @@ export default function MenuPage() {
       <Header />
       <main className="py-12 md:py-24 bg-background">
         <div className="mx-auto max-w-[1200px] px-6 md:px-8">
-          <motion.div
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <Reveal className="text-center mb-12">
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 text-foreground">Menu</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Scopri i nostri piatti preparati con ingredienti freschi e tradizione
             </p>
-          </motion.div>
+          </Reveal>
 
           {/* Category Tabs */}
-          <motion.div
-            className="flex flex-wrap gap-3 justify-center mb-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
+          <Reveal delay={0.1} className="flex flex-wrap gap-3 justify-center mb-12">
             {categories.map((category) => (
-              <Button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                variant={activeCategory === category.id ? "default" : "outline"}
-                size="lg"
-                className={activeCategory === category.id ? "btn-primary" : "btn-outline"}
-              >
-                {category.name}
-              </Button>
-            ))}
-          </motion.div>
-
-          {/* Menu Items Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredItems.map((item, idx) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-              >
-                <Card className="card-elevated overflow-hidden">
-                  <div className="relative h-64 w-full bg-muted">
-                    <Image
-                      src={item.image_url || "/placeholder.svg"}
-                      alt={item.name}
-                      fill
-                      className="object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-display font-bold text-foreground mb-2">{item.name}</h3>
-                    <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{item.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-2xl font-display font-bold text-primary">€{item.price.toFixed(2)}</span>
-                      <Button variant="outline" size="sm" className="btn-outline bg-transparent">
-                        Dettagli
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
+              <motion.div key={category.id} whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  onClick={() => setActiveCategory(category.id)}
+                  variant={activeCategory === category.id ? "default" : "outline"}
+                  size="lg"
+                  className={activeCategory === category.id ? "btn-primary" : "btn-outline"}
+                >
+                  {category.name}
+                </Button>
               </motion.div>
             ))}
-          </div>
+          </Reveal>
+
+          {/* Menu Items Grid */}
+          <Stagger>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredItems.map((item) => (
+                <motion.div key={item.id} variants={item}>
+                  <Card className="card-elevated overflow-hidden">
+                    <div className="relative h-64 w-full bg-muted">
+                      <Image
+                        src={item.image_url || "/placeholder.svg"}
+                        alt={item.name}
+                        fill
+                        className="object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-display font-bold text-foreground mb-2">{item.name}</h3>
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{item.description}</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-2xl font-display font-bold text-primary">€{item.price.toFixed(2)}</span>
+                        <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }}>
+                          <Button variant="outline" size="sm" className="btn-outline bg-transparent">
+                            Dettagli
+                          </Button>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </Stagger>
 
           {/* Empty State */}
           {filteredItems.length === 0 && (
@@ -180,19 +171,16 @@ export default function MenuPage() {
           )}
 
           {/* CTA */}
-          <motion.div
-            className="mt-16 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
+          <Reveal delay={0.3} className="mt-16 text-center">
             <p className="text-lg text-muted-foreground mb-6">
               Interessato? Prenota un tavolo e vieni a scoprire i nostri piatti!
             </p>
-            <Button asChild size="lg" className="btn-primary">
-              <a href="/reservations">Prenota Ora</a>
-            </Button>
-          </motion.div>
+            <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+              <Button asChild size="lg" className="btn-primary">
+                <a href="/reservations">Prenota Ora</a>
+              </Button>
+            </motion.div>
+          </Reveal>
         </div>
       </main>
       <Footer />

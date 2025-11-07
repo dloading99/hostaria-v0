@@ -9,6 +9,7 @@ import { Footer } from "@/components/footer"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, Users } from "lucide-react"
+import { Reveal } from "@/components/motion"
 
 export default function ReservationsPage() {
   const [formData, setFormData] = useState({
@@ -82,26 +83,16 @@ export default function ReservationsPage() {
       <Header />
       <main className="py-12 md:py-24 bg-background">
         <div className="mx-auto max-w-[1200px] px-6 md:px-8">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <Reveal className="text-center mb-16">
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-4 text-foreground">Prenota un Tavolo</h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Prenota il tuo tavolo presso Hostaria dei Ricordi. Ti aspettiamo!
             </p>
-          </motion.div>
+          </Reveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Reservation Form */}
-            <motion.div
-              className="lg:col-span-2"
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <Reveal y={24} className="lg:col-span-2">
               <Card className="card-elevated p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Name */}
@@ -251,22 +242,19 @@ export default function ReservationsPage() {
                   )}
 
                   {/* Submit Button */}
-                  <Button type="submit" disabled={loading} size="lg" className="w-full btn-primary">
-                    {loading ? "Elaborazione..." : "Prenota Ora"}
-                  </Button>
+                  <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                    <Button type="submit" disabled={loading} size="lg" className="w-full btn-primary">
+                      {loading ? "Elaborazione..." : "Prenota Ora"}
+                    </Button>
+                  </motion.div>
 
                   <p className="text-xs text-muted-foreground text-center">* Campi obbligatori</p>
                 </form>
               </Card>
-            </motion.div>
+            </Reveal>
 
             {/* Info Sidebar */}
-            <motion.div
-              className="space-y-6"
-              initial={{ opacity: 0, x: 12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <Reveal y={-24} className="space-y-6">
               <Card className="card-elevated p-6">
                 <h3 className="text-lg font-display font-bold text-foreground mb-4">Informazioni Utili</h3>
                 <div className="space-y-4 text-sm text-foreground">
@@ -299,20 +287,26 @@ export default function ReservationsPage() {
                 <p className="text-foreground mb-4 text-sm">
                   Puoi contattarci direttamente per prenotare o ricevere informazioni
                 </p>
-                <Button asChild size="lg" className="w-full btn-primary mb-2">
-                  <a href="tel:+39828761234">+39 828 761234</a>
-                </Button>
-                <Button asChild size="lg" className="w-full btn-outline">
-                  <a
-                    href="https://wa.me/39828761234?text=Ciao%2C%20vorrei%20prenotare%20un%20tavolo"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    WhatsApp
-                  </a>
-                </Button>
+                <div className="space-y-2">
+                  <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                    <Button asChild size="lg" className="w-full btn-primary">
+                      <a href="tel:+39828761234">+39 828 761234</a>
+                    </Button>
+                  </motion.div>
+                  <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                    <Button asChild size="lg" className="w-full btn-outline">
+                      <a
+                        href="https://wa.me/39828761234?text=Ciao%2C%20vorrei%20prenotare%20un%20tavolo"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        WhatsApp
+                      </a>
+                    </Button>
+                  </motion.div>
+                </div>
               </Card>
-            </motion.div>
+            </Reveal>
           </div>
         </div>
       </main>
