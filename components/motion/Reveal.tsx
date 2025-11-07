@@ -1,9 +1,7 @@
 "use client"
 
 import type React from "react"
-
 import { motion } from "framer-motion"
-import { motionTokens as t } from "@/lib/motion/tokens"
 
 export function Reveal({
   children,
@@ -26,7 +24,7 @@ export function Reveal({
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, margin: "-10% 0% -10% 0%", amount }}
-      transition={{ duration: t.dur.md, ease: t.ease.out, delay }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay }}
     >
       {children}
     </motion.div>
